@@ -142,13 +142,13 @@ const chainedHashDelete = (T,x) => {
 - se $\alpha = 1$ il numero di elementi memorizzati è uguale alla dimensione della tabella
 - se $\alpha > 1$ ci sono più elementi  memorizzati che posizioni libere (sono avvenute collisioni)
 Dato questo valore di $\alpha$, le ipotesi di uniformità semplice e il valore costante per calcolare $h$, la ricerca con e senza successo nel caso medio ha un valore di $\Theta(1+\alpha)$.
-
+#### Ricerca senza successo
 **Teorema della complessità della ricerca senza successo**
 In una tabella hash in cui le collisioni sono risolte mediante liste di collisione, nell'ipotesi di uniformità semplice della funzione hash, la ricerca senza successo richiede in media un tempo di
 $$\Theta(1+\alpha)$$
 **Dimostrazione**
 Dato il costo costante della funzione hash e la necessità di scorrere una data lista per intero, la cui lunghezza è appunto $\alpha$, la complessità è $\Theta(1+\alpha)$.
-
+#### Ricerca con successo
 **Teorema della complessità della ricerca con successo**
 In una tabella hash in cui le collisioni sono risolte mediante liste di collisione, nell'ipotesi di uniformità semplice della funzione hash, la ricerca con successo richiede in media un tempo di
 $$\Theta(1+\alpha)$$
@@ -272,7 +272,6 @@ Essendo una serie geometrica standard ed essendo $\alpha < 1$ la serie converge 
 $$E \le \frac{1}{1-\alpha}$$
 E quindi la ricerca senza successo è limitata superiormente.
 $$O(\frac{1}{1-\alpha})$$
-
 #### Inserimento
 **Teorema della complessità dell'inserimento**
 L'inserimento in una tabella hash ad indirizzamento aperto con fattore di carico $\alpha$ richiede un numero medio di accessi pari a $\frac{1}{(1-\alpha)}$, assumendo l'uniformità della funzione hash.
@@ -340,3 +339,12 @@ Per avere dei risultati ottimali:
 **Link utili**
 - [Hashing with Chaining MIT](https://youtu.be/0M_kIqhwbFo?si=neA2XGCeqpYup4fj)
 - [Hashing MIT](https://youtu.be/Nu8YGneFCWE?si=11Po2AutRE8Gbj1-)
+## Guida agli esercizi
+**Più comuni**
+Gli esercizi d'esame tipo hanno la seguente struttura:
+Data una tabella hash di $m$ posizioni, le $X$ occupate e le $-$ libere, calcolare la probabilità che un elemento possa finire nelle celle (es. $m=11$ $[X-XXX---X-X]$)
+- Per ogni cella vuota la probabilità è almeno $\frac{1}{m}$, va poi a sommarsi un ulteriore $\frac{1}{m}$ ogni qual volta la cella viene compresa da una sequenza di scansione di un'altra cella occupata
+- Se sono presenti informazioni sulla funzione hash (es. $h(k) = (h'(k) + 2 i) mod \ m$ con $i$ numero di tentativi) vanno utilizzate per il calcolo. $h'(k)$ è la posizione corrente occupata per cui si sta calcolando la sequenza di scansione. Se la cella immediatamente successiva nella sequenza è già occupata, si incrementa $i$ e si rifa il calcolo, fino a trovare una cella vuota (di cui si aumenta poi la probabilità)
+- Se non sono presenti informazioni si possono fare delle assunzioni e basarsi su quelle (es: scansione lineare)
+**Meno comuni**
+Dimostrazioni sulla complessità della ricerca nelle tabelle hash

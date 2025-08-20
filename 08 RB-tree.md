@@ -185,6 +185,77 @@ Confrontiamo il colore del nodo $x$ con quello del fratello $w$.
 	2. Se il padre di $w$ è nero: togliamo il doppio nero a $x$ e coloriamo $w$ di rosso, trasformando $p$ in un doppio nero. $p$ diventerà il nuovo $x$ e la reiterazione della procedura risolverà le violazioni successivamente![[Screenshot_2025-06-16-15-30-04-268_md.obsidian.png]]
 3. $w$ è rosso: viene trasformato in uno dei casi precedenti ruotando $p$ a sinistra![[Screenshot_2025-06-16-15-31-44-834_md.obsidian.png]]
 
+
+```c
+RB-DELETE-FIXUP(T, x)
+  // Continua finché x non è la radice e ha ancora un "nero extra"
+  while x != T.root AND x.color == BLACK
+    // Caso: x è un figlio sinistro
+    if x == x.parent.left
+      w = x.parent.right // w è il fratello di x
+
+      // ---- CASO 1: Il fratello w è ROSSO ----
+      if w.color == RED
+        w.color = BLACK
+        x.parent.color = RED
+        LEFT-ROTATE(T, x.parent)
+        w = x.parent.right // Aggiorna w al nuovo fratello
+      
+      // ---- CASO 2: Il fratello w è NERO e i suoi figli sono NERI ----
+      if w.left.color == BLACK AND w.right.color == BLACK
+        w.color = RED
+        x = x.parent // Propaga il problema al padre
+      else
+        // ---- CASO 3: Il fratello w è NERO, figlio sx ROSSO, figlio dx NERO
+        if w.right.color == BLACK
+          w.left.color = BLACK
+          w.color = RED
+          RIGHT-ROTATE(T, w)
+          w = x.parent.right // Aggiorna w al nuovo fratello
+        
+        // ---- CASO 4: Il fratello w è NERO e suo figlio destro è ROSSO ----
+        w.color = x.parent.color
+        x.parent.color = BLACK
+        w.right.color = BLACK
+        LEFT-ROTATE(T, x.parent)
+        x = T.root // Problema risolto, termina il ciclo
+
+    // Caso simmetrico: x è un figlio destro
+    else
+      w = x.parent.left // w è il fratello di x
+
+      // ---- CASO 1 (simmetrico) ----
+      if w.color == RED
+        w.color = BLACK
+        x.parent.color = RED
+        RIGHT-ROTATE(T, x.parent)
+        w = x.parent.left
+
+      // ---- CASO 2 (simmetrico) ----
+      if w.right.color == BLACK AND w.left.color == BLACK
+        w.color = RED
+        x = x.parent
+      else
+        // ---- CASO 3 (simmetrico) ----
+        if w.left.color == BLACK
+          w.right.color = BLACK
+          w.color = RED
+          LEFT-ROTATE(T, w)
+          w = x.parent.left
+
+        // ---- CASO 4 (simmetrico) ----
+        w.color = x.parent.color
+        x.parent.color = BLACK
+        w.left.color = BLACK
+        RIGHT-ROTATE(T, x.parent)
+        x = T.root
+  
+  // Assicura che la radice o il nodo che ha assorbito il "nero extra" sia NERO
+  x.color = BLACK
+```
+
+
+
 Teorema: Un albero rosso-nero con n nodi interni ha un'altezza: $h≤2log_2(n+1)$
 
 Dimostrazione: consideriamo un sottoalbero radicato in un nodo $x$. Sia $bh(x)$ l'altezza nera di $x$. Vogliamo dimostrare per induzione sull'altezza di $x$ che il sottoalbero radicato in $x$ contiene almeno $2 \ bh(x) −1$ nodi interni.

@@ -1,3 +1,6 @@
+**Definizione di ordinamento**
+Dato un insieme di $n$ numeri $<a_1, a_2, ..., a_n>$ trovare un'opportuna permutazione degli indici in $1,...,n$ tale che $a_{\pi (1)} \le a_{\pi (2)} \le ... \le a_{\pi (n)}$
+
 Insertion sort
 ```typescript
 const insertionSort = (array: Array<number>) => {

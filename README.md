@@ -1,6 +1,6 @@
 Appunti di Algoritmi e strutture dati. DMI UniCT 2025.
 ### Indice
-[[01 Complessità e modelli]]
+[[01 Complessita e modelli]]
 [[02 Insertion sort]]
 [[03 Heap, heapsort e code di priorità]]
 [[04 Quicksort]]
